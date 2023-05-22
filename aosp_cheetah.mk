@@ -19,14 +19,36 @@ TARGET_LINUX_KERNEL_VERSION := 5.10
 USE_SWIFTSHADER := true
 BOARD_USES_SWIFTSHADER := true
 
+# Inherit device configuration
 $(call inherit-product, device/google/gs201/aosp_common.mk)
 $(call inherit-product, device/google/pantah/device-cheetah.mk)
 
+include device/google/pantah/device-custom.mk
+
+# Inherit some common PixelExperience stuff.
+$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
+
+TARGET_SUPPORTS_QUICK_TAP := true
+TARGET_BOOT_ANIMATION_RES := 1080
+TARGET_GAPPS_ARCH := arm64
+
 PRODUCT_NAME := aosp_cheetah
 PRODUCT_DEVICE := cheetah
-PRODUCT_MODEL := AOSP on Cheetah
-PRODUCT_BRAND := Android
+PRODUCT_MODEL := Pixel 7 Pro
+PRODUCT_BRAND := google
 PRODUCT_MANUFACTURER := Google
 
 DEVICE_MANIFEST_FILE := \
 	device/google/pantah/manifest.xml
+
+# Boot animation
+TARGET_SCREEN_HEIGHT := 3120
+TARGET_SCREEN_WIDTH := 1440
+
+PRODUCT_BUILD_PROP_OVERRIDES += \
+    TARGET_PRODUCT=cheetah \
+    PRIVATE_BUILD_DESC="cheetah-user 13 TQ2A.230505.002 9891397 release-keys"
+
+BUILD_FINGERPRINT := google/cheetah/cheetah:13/TQ2A.230505.002/9891397:user/release-keys
+
+$(call inherit-product, vendor/google/cheetah/cheetah-vendor.mk)
